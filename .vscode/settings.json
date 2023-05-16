@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "elasticity.h": "c",
+        "gmshc.h": "c"
+    }
+}
