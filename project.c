@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//#include "../gmsh-sdk/include/gmshc.h"
-#include "gmsh-4.11.1-Windows64-sdk/include/gmshc.h"
+#include "../gmsh-sdk/include/gmshc.h"
+//#include "gmsh-4.11.1-Windows64-sdk/include/gmshc.h"
 #include "headers/matrix.h"
 #include "headers/elasticity.h"
 #include "math.h"
@@ -15,9 +15,6 @@
    ({ __typeof__ (a) _a = (a); \
        __typeof__ (b) _b = (b); \
      _a > _b ? _a : _b; })
-
-// int k;
-// double r1; double r2; double e; double l; double meshSizeFactor; char * filename;
 
 int main (int argc, char *argv[]) {
 
@@ -48,7 +45,7 @@ int main (int argc, char *argv[]) {
   printf("Frequence target = %f\n",f_target);
   printf("------------------------------------------------------\n");
   // double lower_bound = 1e-4; double upper_bound = 80e-2;
-  double lower_bound = 1e-6; double upper_bound = 90e-3;
+  double lower_bound = 1e-6; double upper_bound = 99e-3;
   double param_biss = bissection_method(lower_bound,upper_bound,param_init);
   // printf("Optimisation ended : found new parameter %f for previous parameter %f\n",param_biss,param_init->r1);
   // Tester pour le nouveau paramètre

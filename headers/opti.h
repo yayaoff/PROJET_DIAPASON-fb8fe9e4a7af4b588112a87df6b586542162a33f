@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "lu.h"
 #include "elasticity.h"
-#include "../gmsh-4.11.1-Windows64-sdk/include/gmshc.h"
+// #include "../gmsh-4.11.1-Windows64-sdk/include/gmshc.h"
 #include "design.h"
 #include "RCM.h"
 

@@ -111,7 +111,7 @@ double *compute_band_freq(int tag_vis,param_t *param){
   int ierr;
   gmshInitialize(0, NULL, 0, 0, &ierr);
   
-  designTuningFork(param->r1, param->r2, param->e, param->l, param->meshSizeFactor, param->filename);
+  designTuningFork(param->r1, param->r2, param->e, param->l, param->meshSizeFactor, NULL);
   
   // Number of vibration modes to find
   int k = param->k;
@@ -207,55 +207,27 @@ double *compute_band_freq(int tag_vis,param_t *param){
   return frequencies;
 }
 
-double f(param_t* param, double param_test){
-    // // Fonction dont on cherche la racine
-    double param_prev = param->l;
-    param->l = param_test;
-    printf("Testing for param : %.9e\n",param_test);
-    double *f_actuals = compute_band_freq(0,param);
-    // double *f_actuals = compute_band_freq(0,param);
-    printf("Freq act = %f\n",f_actuals[0]);
-    param->l = param_prev;
-    return f_actuals[0] - f_target;
-}
+int main(int argc, char *argv[]){
 
-double bissection_method(double low_bound, double up_bound,param_t *param){
-    printf("\n------------------------------------------------------\n");
-    printf(" Bissection method !\n");
-    printf("------------------------------------------------------\n");
+    if (argc < 6){
+    printf("Usage: \n"
+			"./opti <k> <out> <r1> <r2> <e> <l> <out>\n" 
+			"---------------------------- \n\n"
+      "- k\n "
+      "- out\n "
+			"- r1\n "
+			"- r2\n "
+      "- e\n "
+      "- l\n "
+      "\n");
+		return -1;
+  } 
+  param_t *params = malloc(sizeof(param_t));
+  params->k = atoi(argv[1]); params->argc = argc; params->argv = argv; 
+  params->r1 = atof(argv[3]) ; params->r2 = atof(argv[4]); params->e= atof(argv[5]);params->l = atof(argv[6]);
+  params->meshSizeFactor=0.3;params->filename=argv[2];
+  
+  double *freqs = compute_band_freq(0,params);
 
-    // printf("Checking if bounds have opposite signs\n");
-    // if (f(param,low_bound) * f(param,up_bound) > 0){
-    //     printf("f(low) and f(up must have opposite signs.");
-    //     return -1; 
-    // }
-    
-    double mid = (low_bound + up_bound) / 2.0;
-    
-    double err = fabs(f(param,mid));
-    printf("--- > Initial error : %.9e\n",err);
-    int iter =0;
-    while (fabs(f(param,mid)) > TOL && iter < 1000) {
-     // while (fabs(up_bound - low_bound) > TOL && iter < 1000) {
-      if (f(param,mid) < TOL) {
-        double err = fabs(f(param,mid)-f_target);
-        printf("Freq computed ! Err final = %.9e\n!!",err);
-        return mid;                     // Racine trouvée !
-      }
-      else if (f(param,mid)*f(param,low_bound) < 0 ){
-        printf("Changing upper bound from %.9e to %.9e\n",up_bound,mid);
-        up_bound = mid;
-      }  
-      else{
-        printf("Changing lower bound from %.9e to %.9e\n",low_bound,mid);
-        low_bound = mid;
-      }
-      mid = (up_bound + low_bound) / 2.0;
-      printf("OK\n");
-      // printf("Err act = %.9e\n",fabs(f(param,mid)));
-      printf("low bound = %.9e\n",low_bound);
-      printf("up bound = %.9e\n",up_bound);
-      iter++;
-    }
-    return mid;
+  return 0;
 }

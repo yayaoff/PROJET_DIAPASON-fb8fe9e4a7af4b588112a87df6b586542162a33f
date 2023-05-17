@@ -55,16 +55,16 @@
 void remove_bnd_lines_half (Matrix *K, Matrix *M, size_t *bnd_nodes, size_t n_bnd_nodes, BandMatrix**K_new, BandMatrix **M_new, int* invperm,size_t *sym, size_t n_sym){
   size_t n = K->n;
   size_t n_new = K->n - 2*n_bnd_nodes-n_sym;
-  printf("n_new=%d\n",n_new);
+  printf("n_new=%ld\n",n_new);
   *K_new = allocate_band_matrix(n_new, n_new);
   *M_new = allocate_band_matrix(n_new, n_new);
   
   for(int i=0; i<n_bnd_nodes; i++){
-    printf("bnd_nodes[%d]=%d \n",i,bnd_nodes[i]);
+    printf("bnd_nodes[%d]=%ld \n",i,bnd_nodes[i]);
   }
 
   for(int j=0; j<n_sym; j++){
-    printf("sym_nodes[%d]=%d \n",j,sym[j]);
+    printf("sym_nodes[%d]=%ld \n",j,sym[j]);
   }
 
   size_t *new_lines = malloc(n_new * sizeof(size_t));

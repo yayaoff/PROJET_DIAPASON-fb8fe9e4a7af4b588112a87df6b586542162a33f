@@ -14,6 +14,7 @@ Matrix * allocate_matrix(int m, int n) {
 		mat->a[i] = mat->data+i*n;
 	return mat;
 }
+
 BandMatrix * allocate_band_matrix(int m, int k){
     BandMatrix * band= malloc(sizeof(Matrix));
     band->m=m;
