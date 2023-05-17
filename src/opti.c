@@ -211,7 +211,7 @@ double f(param_t* param, double param_test){
     double param_prev = param->l;
     param->l = param_test;
     printf("Testing for param : %.9e\n",param_test);
-    double *f_actuals = compute_freq(0,param);
+    double *f_actuals = compute_band_freq(0,param);
     // double *f_actuals = compute_band_freq(0,param);
     printf("Freq act = %f\n",f_actuals[0]);
     param->l = param_prev;

@@ -5,6 +5,7 @@ void remove_bnd_lines (Matrix *K, Matrix *M, size_t *bnd_nodes, size_t n_bnd_nod
 
 
 void remove_bnd_lines_Band(Matrix *K, Matrix *M, size_t *bnd_nodes, size_t n_bnd_nodes, BandMatrix**K_new, BandMatrix **M_new, int* invperm);
+void remove_bnd_lines_half (Matrix *K, Matrix *M, size_t *bnd_nodes, size_t n_bnd_nodes, BandMatrix**K_new, BandMatrix **M_new, int* invperm,size_t *sym, size_t n_sym);
 
 void remove_coord(double * coord, double * res ,size_t * boundary_nodes, size_t n_boundary_nodes, int n);
 

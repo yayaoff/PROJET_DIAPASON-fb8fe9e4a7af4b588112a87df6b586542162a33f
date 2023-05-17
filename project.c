@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../gmsh-sdk/include/gmshc.h"
+//#include "../gmsh-sdk/include/gmshc.h"
+#include "gmsh-4.11.1-Windows64-sdk/include/gmshc.h"
 #include "headers/matrix.h"
 #include "headers/elasticity.h"
 #include "math.h"
