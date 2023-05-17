@@ -171,7 +171,7 @@ double *compute_band_freq(int tag_vis,param_t *param){
     lambda = power_iteration_band(A, v);
     freq = 1./(2*M_PI*sqrt(lambda));
     
-    fprintf(file, "%.9lf ", freq);
+    fprintf(file, "%.9lf\n", freq);
 
     printf("lambda = %.9e, f = %.3lf\n", lambda, freq);
     frequencies[ki] = freq;
