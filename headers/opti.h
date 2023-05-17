@@ -7,7 +7,7 @@
 #include "design.h"
 #include "RCM.h"
 
-#define TOL 1e-7
+#define TOL 1e-10
 #define f_target 1244.51    //frequence for D5# [Hz] 
 
 typedef struct{

@@ -48,6 +48,7 @@ int main (int argc, char *argv[]) {
   printf("------------------------------------------------------\n");
   // double lower_bound = 1e-4; double upper_bound = 80e-2;
   double lower_bound = 1e-6; double upper_bound = 90e-3;
+  // double lower_bound = 1e-9; double upper_bound = 99e-3;
   double param_biss = bissection_method(lower_bound,upper_bound,param_init);
   // printf("Optimisation ended : found new parameter %f for previous parameter %f\n",param_biss,param_init->r1);
   // Tester pour le nouveau paramètre
