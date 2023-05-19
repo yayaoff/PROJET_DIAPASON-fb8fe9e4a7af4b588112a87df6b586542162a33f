@@ -58,7 +58,7 @@ double *compute_freq(int tag_vis,param_t *param){
 
     frequencies[ki] = freq;
 
-    fprintf(file, "%.9lf ", freq);
+    fprintf(file, "%.9lf\n", freq);
 
     printf("lambda = %.9e, f = %.3lf\n", lambda, freq);
     // Deflate matrix

@@ -6,7 +6,7 @@ LDFLAGS := -Wl,-rpath,$(GMSH_DIR)/lib -lm
 PROG := project.c src/elasticity.c src/lu.c src/matrix.c src/design.c src/eigen.c src/RCM.c src/optimize.c src/freq.c
 OBJS := project.o elasticity.o lu.o matrix.o design.o eigen.o RCM.o optimize.o freq.o
 
-PROG_PY := run_optimize.c src/elasticity.c src/lu.c src/matrix.c src/design.c src/eigen.c src/RCM.c src/optimize.c src/freq.c
+PROG_PY := src/run_optimize.c src/elasticity.c src/lu.c src/matrix.c src/design.c src/eigen.c src/RCM.c src/optimize.c src/freq.c
 OBJS_PY := run_optimize.o elasticity.o lu.o matrix.o design.o eigen.o RCM.o optimize.o freq.o
 
 
@@ -25,6 +25,7 @@ opti_py:
 	rm -f *.o
 
 clean:
+	rm -f opti_py
 	rm -f project
 	rm -f *.o
 

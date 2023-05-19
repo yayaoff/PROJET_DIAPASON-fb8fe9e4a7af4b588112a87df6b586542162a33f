@@ -1,4 +1,4 @@
-#include "opti.h"
+#include "../headers/opti.h"
 
 int main(int argc, char *argv[]){
 
