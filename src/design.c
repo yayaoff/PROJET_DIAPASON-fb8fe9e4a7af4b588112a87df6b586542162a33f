@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../../gmsh-sdk/include/gmshc.h"
-// #include "../gmsh-4.11.1-Windows64-sdk/include/gmshc.h"
+// #include "../../gmsh-sdk/include/gmshc.h"
+#include "../../gmsh-4.11.1-Windows64-sdk/include/gmshc.h"
 
 void designTuningFork(double r1, double r2, double e, double l, double meshSizeFactor, char * filename) {
   /**
@@ -200,8 +200,8 @@ void designTuningForkHalf(double r1, double r2, double e, double l, double meshS
   gmshModelAddPhysicalGroup(1, clampedCurveTags, 2, -1, "clamped", &ierr);
 
   gmshModelMeshGenerate(2, &ierr);
-  gmshFltkInitialize(&ierr);
-  gmshFltkRun(&ierr);
+  // gmshFltkInitialize(&ierr);
+  // gmshFltkRun(&ierr);
 
   if(filename != NULL) gmshWrite(filename, &ierr);
 }
