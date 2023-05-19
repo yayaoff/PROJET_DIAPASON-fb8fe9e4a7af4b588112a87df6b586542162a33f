@@ -36,6 +36,9 @@ LDFLAGS := -Wl,-rpath,$(GMSH_DIR)/lib -lm
 PROG := project.c src/elasticity.c src/lu.c src/matrix.c src/design.c src/eigen.c src/RCM.c src/optimize.c src/freq.c
 OBJS := project.o elasticity.o lu.o matrix.o design.o eigen.o RCM.o optimize.o freq.o
 
+SIM := simulation.c src/elasticity.c src/lu.c src/matrix.c src/design.c src/eigen.c src/RCM.c src/optimize.c src/freq.c
+OBJS_SIM := simulation.o elasticity.o lu.o matrix.o design.o eigen.o RCM.o optimize.o freq.o
+
 PROG_PY := src/opti_for_py.c src/elasticity.c src/lu.c src/matrix.c src/design.c src/eigen.c src/RCM.c
 OBJS_PY := opti_for_py.o elasticity.o lu.o matrix.o eigen.o design.o RCM.o
 
@@ -45,6 +48,10 @@ OBJS_PY := opti_for_py.o elasticity.o lu.o matrix.o eigen.o design.o RCM.o
 fec:
 	$(CC) -c $(PROG)
 	$(CC) -o project $(OBJS) $(LIB) $(LDFLAGS)
+	del /F *.o
+sim:
+	$(CC) -c $(SIM)
+	$(CC) -o project $(OBJS_SIM) $(LIB) $(LDFLAGS)
 	del /F *.o
 
 opti_py:
