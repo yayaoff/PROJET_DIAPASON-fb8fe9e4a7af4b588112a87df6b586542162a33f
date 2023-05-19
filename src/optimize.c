@@ -14,7 +14,7 @@ double f(param_t* param, double param_test){
     // double *f_actuals = compute_band_freq(0,param);
     printf("Freq act = %f\n",f_actuals[0]);
     param->l = param_prev;
-    return f_actuals[0] - f_target;
+    return fabs(f_actuals[0] - f_target);
 }
 
 double bissection_method(double low_bound, double up_bound,param_t *param){
@@ -33,8 +33,8 @@ double bissection_method(double low_bound, double up_bound,param_t *param){
     double err = fabs(f(param,mid));
     printf("--- > Initial error : %.9e\n",err);
     int iter =0;
-    while (fabs(f(param,mid)) > TOL && iter < 1000) {
-     // while (fabs(up_bound - low_bound) > TOL && iter < 1000) {
+    // while (fabs(f(param,mid)) > TOL && iter < 1000) {
+     while (fabs(up_bound - low_bound) > TOL && iter < 1000) {
       if (f(param,mid) < TOL) {
         double err = fabs(f(param,mid)-f_target);
         printf("Freq computed ! Err final = %.9e\n!!",err);
@@ -66,7 +66,7 @@ double f_half(param_t* param, double param_test){
     double *f_actuals = compute_band_freq_half(0,param);
     // printf("Freq act = %f\n",f_actuals[0]);
     param->l = param_prev;
-    return f_actuals[0] - f_target;
+    return fabs(f_actuals[0] - f_target);
 }
 
 double bissection_half_method(double low_bound, double up_bound,param_t *param){
@@ -85,10 +85,10 @@ double bissection_half_method(double low_bound, double up_bound,param_t *param){
     double err = fabs(f_half(param,mid));
     printf("--- > Initial error : %.9e\n",err);
     int iter =0;
-    while (fabs(f(param,mid)) > TOL && iter < 1000) {
-     // while (fabs(up_bound - low_bound) > TOL && iter < 1000) {
+    //while (err > TOL && iter < 1000) {
+     while (fabs(up_bound - low_bound) > TOL && iter < 1000) {
       if (f_half(param,mid) < TOL) {
-        double err = fabs(f(param,mid)-f_target);
+        double err = fabs(f_half(param,mid)-f_target);
         printf("Freq computed ! Err final = %.9e\n!!",err);
         return mid;                     // Racine trouvée !
       }
