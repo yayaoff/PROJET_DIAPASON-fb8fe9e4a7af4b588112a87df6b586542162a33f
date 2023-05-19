@@ -143,18 +143,12 @@ void designTuningForkHalf(double r1, double r2, double e, double l, double meshS
   gmshModelOccAddPoint(x,y,z,meshSize,9,&ierr);
   x -= r1/2;
   y += r1;
-  // gmshModelOccAddPoint(x,y,z,meshSize,10,&ierr);
   y += l;
-  // gmshModelOccAddPoint(x,y,z,meshSize,11,&ierr);
   x -= h;
-  // gmshModelOccAddPoint(x,y,z,meshSize,12,&ierr);
   y -= l;
-  // gmshModelOccAddPoint(x,y,z,meshSize,13,&ierr);
   x += r2/2;
   y -= r2;
-  // gmshModelOccAddPoint(x,y,z,meshSize,14,&ierr);
   y += (h+r1);
-  // gmshModelOccAddPoint(x,y,z,meshSize,15,&ierr);
   x += h;
   gmshModelOccAddPoint(x,y,z,meshSize,16,&ierr);
   
@@ -167,18 +161,10 @@ void designTuningForkHalf(double r1, double r2, double e, double l, double meshS
   gmshModelOccAddLine(6,7,6,&ierr);
   gmshModelOccAddCircleArc(7,16,8,7,&ierr);
   gmshModelOccAddLine(8,9,8,&ierr);
-  // gmshModelOccAddCircleArc(9,15,10,9,&ierr);
-  // gmshModelOccAddLine(10,11,10,&ierr);
-  // gmshModelOccAddLine(11,12,11,&ierr);
-  // gmshModelOccAddLine(12,13,12,&ierr);
-  // gmshModelOccAddCircleArc(13,15,14,13,&ierr);
-  // gmshModelOccAddLine(14,1,14,&ierr);
   gmshModelOccAddLine(9,1,9,&ierr);
 
 
   // Add wire (closed curve)
-  // int curveTags[14] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14};
-  // gmshModelOccAddWire(curveTags, 14, 1, 1, &ierr);
   int curveTags[9] = {1,2,3,4,5,6,7,8,9};
   gmshModelOccAddWire(curveTags, 9, 1, 1, &ierr);
 

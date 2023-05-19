@@ -9,6 +9,8 @@ OBJS := project.o elasticity.o lu.o matrix.o design.o eigen.o RCM.o optimize.o f
 PROG_PY := src/run_optimize.c src/elasticity.c src/lu.c src/matrix.c src/design.c src/eigen.c src/RCM.c src/optimize.c src/freq.c
 OBJS_PY := run_optimize.o elasticity.o lu.o matrix.o design.o eigen.o RCM.o optimize.o freq.o
 
+SIM := simulation.c src/elasticity.c src/lu.c src/matrix.c src/design.c src/eigen.c src/RCM.c src/optimize.c src/freq.c
+OBJS_SIM := simulation.o elasticity.o lu.o matrix.o design.o eigen.o RCM.o optimize.o freq.o
 
 .PHONY: clean
 
@@ -22,6 +24,11 @@ opti_py:
 	make clean
 	$(CC) -c $(PROG_PY)
 	$(CC) -o opti_py $(OBJS_PY) $(LIB) $(LDFLAGS)
+	rm -f *.o
+
+sim:
+	$(CC) -c $(SIM)
+	$(CC) -o project $(OBJS_SIM) $(LIB) $(LDFLAGS)
 	rm -f *.o
 
 clean:

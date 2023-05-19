@@ -41,7 +41,7 @@ int main (int argc, char *argv[]) {
   param_t *param_init = malloc(sizeof(param_t));
   param_init->argc = argc; param_init->argv = argv; param_init->k = atoi(argv[1]);
   // param_init->r1=641e-5; param_init->r2=15e-3; param_init->e=585e-4; param_init->l=574e-4; param_init->meshSizeFactor=0.3;param_init->filename=NULL;
-  param_init->r1=641e-5; param_init->r2=15e-3; param_init->e=585e-4; param_init->l=574e-4; param_init->meshSizeFactor=0.3;param_init->filename=NULL;
+  param_init->r1=641e-5; param_init->r2=15e-3; param_init->e=585e-4; param_init->l=552e-4; param_init->meshSizeFactor=0.3;param_init->filename=NULL;
 
   // Compute frequencies 
 
@@ -52,10 +52,10 @@ int main (int argc, char *argv[]) {
     printf("Frequence before optimisation = %f\n",frequencies[0]);
     printf("Frequence target = %f\n",f_target);
     printf("------------------------------------------------------\n");
-    double lower_bound = 1e-6; double upper_bound = 99e-3;
+    double lower_bound = 1e-6; double upper_bound = 3e-3;
     double param_biss = bissection_half_method(lower_bound,upper_bound,param_init);
     // Tester pour le nouveau paramètre
-    param_init->e = param_biss;
+    param_init->l = param_biss;
     double* new_frequencies = compute_band_freq_half(1,param_init);
     printf("Freq final = %f\n",new_frequencies[0]);
     // for(int mode_k=0; mode_k < param->k; k++) printf("Frequence for mode %d = %f\n",mode_k, new_frequencies[mode_k]);
@@ -67,14 +67,14 @@ int main (int argc, char *argv[]) {
       printf("Frequence before optimisation = %f\n",frequencies[0]);
       printf("Frequence target = %f\n",f_target);
       printf("------------------------------------------------------\n");
-      // double lower_bound = 85e-7; double upper_bound = 9e-3;
-      // double lower_bound = 9e-8; double upper_bound = 4e-2;
-      double lower_bound = 9e-7; double upper_bound = 55e-3;
+      double lower_bound = 1e-4; double upper_bound = 6e-2;
       double param_biss = bissection_method(lower_bound,upper_bound,param_init);
       // Tester pour le nouveau paramètre
-      param_init->e = param_biss;
-      double* new_frequencies = compute_band_freq(1,param_init);
+      param_init->l = param_biss;
+      if(param_biss != -1){
+              double* new_frequencies = compute_band_freq(1,param_init);
       printf("Freq final = %f\n",new_frequencies[0]);
+      }
       // for(int mode_k=0; mode_k < param->k; k++) printf("Frequence for mode %d = %f\n",mode_k, new_frequencies[mode_k]);
   }
   return 0;

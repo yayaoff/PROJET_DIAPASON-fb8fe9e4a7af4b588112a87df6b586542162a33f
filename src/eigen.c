@@ -34,17 +34,8 @@ void remove_bnd_lines(Matrix *K, Matrix *M, size_t *bnd_nodes, size_t n_bnd_node
 void remove_bnd_lines_half(Matrix *K, Matrix *M, size_t *bnd_nodes, size_t n_bnd_nodes, BandMatrix**K_new, BandMatrix **M_new, int invperm,size_t *sym, size_t n_sym){
   size_t n = K->n;
   size_t n_new = K->n - 2*n_bnd_nodes-n_sym;
-  //printf("n_new=%ld\n",n_new);
   *K_new = allocate_band_matrix(n_new, n_new);
   *M_new = allocate_band_matrix(n_new, n_new);
-  
-  // for(int i=0; i<n_bnd_nodes; i++){
-  //   printf("bnd_nodes[%d]=%d \n",i,bnd_nodes[i]);
-  // }
-
-  // for(int j=0; j<n_sym; j++){
-  //   printf("sym_nodes[%d]=%d \n",j,sym[j]);
-  // }
 
   size_t *new_lines = calloc(n_new,sizeof(size_t));
   size_t i_bnd = 0;
@@ -58,7 +49,6 @@ void remove_bnd_lines_half(Matrix *K, Matrix *M, size_t *bnd_nodes, size_t n_bnd
       continue;
     }
     if(i==sym[i_sym]){
-      //printf("sym OK");
       i_sym++;
       new_lines[2*i_new+offset] = 2*i;
       offset++;
@@ -66,8 +56,6 @@ void remove_bnd_lines_half(Matrix *K, Matrix *M, size_t *bnd_nodes, size_t n_bnd
     }
     new_lines[2*i_new+offset] = 2*i;
     new_lines[2*i_new+1+offset] = 2*i+1;
-    // printf("offset = %ld\n",offset);
-    // printf("%ld\n",2*i_new+1+offset);
     i_new += 1;
   }
   for (size_t i=0; i<n_new; i++){

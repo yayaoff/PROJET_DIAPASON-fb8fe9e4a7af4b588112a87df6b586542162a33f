@@ -94,8 +94,8 @@ double *compute_freq(int tag_vis,param_t *param){
 
 // tag_vis == 1 si on souhaite visualiser le résultat , 0 sinon
 double *compute_band_freq(int tag_vis,param_t *param){
-    //printf("Computing freq for params : \n r1 = %.9e, r2 = %.9e, l = %.9e, e = %.9e, meshSize = %.9e\n",
-    //param->r1, param->r2, param->l, param->e, param->meshSizeFactor);
+    printf("Computing freq for params : \n r1 = %.9e, r2 = %.9e, l = %.9e, e = %.9e, meshSize = %.9e\n",
+    param->r1, param->r2, param->l, param->e, param->meshSizeFactor);
   
   // Define physical constants
   double E = 0.7e11;  // Young's modulus for Aluminum

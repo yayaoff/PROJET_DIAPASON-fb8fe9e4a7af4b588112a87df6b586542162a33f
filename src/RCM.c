@@ -3,29 +3,6 @@
 #include <math.h>
 #include "../headers/RCM.h"
 
-// double distance(Point p1, Point p2) {
-//     double dx = p1.x - p2.x;
-//     double dy = p1.y - p2.y;
-//     return sqrt(dx * dx + dy * dy);
-// }
-
-// Point *coord_to_point(double * coord, int n_nodes){
-//     Point* points = malloc(n_nodes * sizeof(Point));
-//     for (int i = 0; i < n_nodes; i++) {
-//         points[i].x = coord[2 * i];
-//         points[i].y = coord[2 * i + 1];
-//     }
-//     return points;
-// }
-
-// int compare(const void* a, const void* b) {
-//     Level* nodeA = (Level*)a;
-//     Level* nodeB = (Level*)b;
-//     return nodeA->level - nodeB->level;
-// }
-
-
-
 int** AdjacencyMatrix(double** matrix, int size) {
     int** adjMatrix = malloc(size * sizeof(int*));
 
