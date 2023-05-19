@@ -9,6 +9,8 @@
 
 double *compute_freq(int tag_vis,param_t *param);
 
+double *compute_freq_half(int tag_vis,param_t *param);
+
 double *compute_band_freq(int tag_vis,param_t *param);
 
 double *compute_band_freq_half(int tag_vis,param_t *param);

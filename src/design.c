@@ -200,8 +200,8 @@ void designTuningForkHalf(double r1, double r2, double e, double l, double meshS
   gmshModelAddPhysicalGroup(1, clampedCurveTags, 2, -1, "clamped", &ierr);
 
   gmshModelMeshGenerate(2, &ierr);
-  // gmshFltkInitialize(&ierr);
-  // gmshFltkRun(&ierr);
+  gmshFltkInitialize(&ierr);
+  gmshFltkRun(&ierr);
 
   if(filename != NULL) gmshWrite(filename, &ierr);
 }

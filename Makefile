@@ -39,6 +39,9 @@ OBJS := project.o elasticity.o lu.o matrix.o design.o eigen.o RCM.o optimize.o f
 SIM := simulation.c src/elasticity.c src/lu.c src/matrix.c src/design.c src/eigen.c src/RCM.c src/optimize.c src/freq.c
 OBJS_SIM := simulation.o elasticity.o lu.o matrix.o design.o eigen.o RCM.o optimize.o freq.o
 
+MES:= mesures.c src/elasticity.c src/lu.c src/matrix.c src/design.c src/eigen.c src/RCM.c src/optimize.c src/freq.c
+OBJS_MES:= mesures.o elasticity.o lu.o matrix.o design.o eigen.o RCM.o optimize.o freq.o
+
 PROG_PY := src/opti_for_py.c src/elasticity.c src/lu.c src/matrix.c src/design.c src/eigen.c src/RCM.c
 OBJS_PY := opti_for_py.o elasticity.o lu.o matrix.o eigen.o design.o RCM.o
 
@@ -53,6 +56,12 @@ sim:
 	$(CC) -c $(SIM)
 	$(CC) -o project $(OBJS_SIM) $(LIB) $(LDFLAGS)
 	del /F *.o
+
+mes:
+	$(CC) -c $(MES)
+	$(CC) -o project $(OBJS_MES) $(LIB) $(LDFLAGS)
+	del /F *.o
+
 
 opti_py:
 	$(CC) -c $(PROG_PY)
