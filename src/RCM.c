@@ -3,26 +3,28 @@
 #include <math.h>
 #include "../headers/RCM.h"
 
-double distance(Point p1, Point p2) {
-    double dx = p1.x - p2.x;
-    double dy = p1.y - p2.y;
-    return sqrt(dx * dx + dy * dy);
-}
+// double distance(Point p1, Point p2) {
+//     double dx = p1.x - p2.x;
+//     double dy = p1.y - p2.y;
+//     return sqrt(dx * dx + dy * dy);
+// }
 
-int compare(const void* a, const void* b) {
-    Level* nodeA = (Level*)a;
-    Level* nodeB = (Level*)b;
-    return nodeA->level - nodeB->level;
-}
+// Point *coord_to_point(double * coord, int n_nodes){
+//     Point* points = malloc(n_nodes * sizeof(Point));
+//     for (int i = 0; i < n_nodes; i++) {
+//         points[i].x = coord[2 * i];
+//         points[i].y = coord[2 * i + 1];
+//     }
+//     return points;
+// }
 
-Point *coord_to_point(double * coord, int n_nodes){
-    Point* points = malloc(n_nodes * sizeof(Point));
-    for (int i = 0; i < n_nodes; i++) {
-        points[i].x = coord[2 * i];
-        points[i].y = coord[2 * i + 1];
-    }
-    return points;
-}
+// int compare(const void* a, const void* b) {
+//     Level* nodeA = (Level*)a;
+//     Level* nodeB = (Level*)b;
+//     return nodeA->level - nodeB->level;
+// }
+
+
 
 int** AdjacencyMatrix(double** matrix, int size) {
     int** adjMatrix = malloc(size * sizeof(int*));
@@ -48,56 +50,73 @@ void freeAdjacencyMatrix(int** adjMatrix, int size) {
     free(adjMatrix);
 }
 
-void reverseCuthillMcKee(int** adjMatrix, int size, int* perm) {
-    Level* nodes = malloc(size * sizeof(Level));
-    int* visited = calloc(size, sizeof(int));
-    int queue[size];
-    int front = 0;
-    int rear = 0;
-    int level = 0;
+typedef struct Node {
+    int index;
+    int degree;
+} Node;
 
-    // Initialize the starting node
-    int startLevel = 0;
-    nodes[startLevel].node = startLevel;
-    nodes[startLevel].level = level;
-    visited[startLevel] = 1;
-    queue[rear++] = startLevel;
+int compare(const void* a, const void* b) {
+    return ((Node*)a)->degree - ((Node*)b)->degree;
+}
 
-    while (front < rear) {
-        int currentLevel = queue[front++];
-        level++;
+void reverseCuthillMcKee(double** matrix, int size, int* perm) {
+    Node* nodes = (Node*)malloc(size * sizeof(Node));
+    int* queue = (int*)malloc(size * sizeof(int));
+    int* visited = (int*)calloc(size, sizeof(int));
 
-        // Find neighbors of the current node
-        for (int i = 0; i < size; i++) {
-            if (adjMatrix[currentLevel][i] && !visited[i]) {
-                // Check if the neighbor is already in the queue
-                int alreadyInQueue = 0;
-                for (int j = front; j < rear; j++) {
-                    if (queue[j] == i) {
-                        alreadyInQueue = 1;
-                        break;
-                    }
-                }
-
-                // Enqueue the neighbor only if it is not already in the queue
-                if (!alreadyInQueue) {
-                    nodes[i].node = i;
-                    nodes[i].level = level;
-                    visited[i] = 1;
-                    queue[rear++] = i;
-                }
+    // Calculate degrees
+    //Based adjacency on wether or not the value between 2 coordinates is not null
+    for (int i = 0; i < size; i++) {
+        nodes[i].index = i;
+        nodes[i].degree = 0;
+        for (int j = 0; j < size; j++) {
+            if (matrix[i][j] != 0.0) {
+                nodes[i].degree++;
             }
         }
     }
 
-    // Sort the nodes based on the levels in increasing order
-    qsort(nodes, size, sizeof(Level), compare);
+    // Sort nodes by degree
+    qsort(nodes, size, sizeof(Node), compare);
 
-    // Generate the permutation array
+    // BFS
+    int start = 0;
+    int end = 1;
+    queue[0] = nodes[0].index;
+    visited[nodes[0].index] = 1;
+
+    while (start < end) {
+        Node* neighbors = (Node*)malloc(size * sizeof(Node));
+        int count = 0;
+
+        // Find all unvisited neighbors
+        for (int i = 0; i < size; i++) {
+            if (matrix[queue[start]][i] != 0.0 && !visited[i]) {
+                neighbors[count].index = i;
+                neighbors[count].degree = nodes[i].degree;
+                count++;
+            }
+        }
+
+        // Sort unvisited neighbors by degree
+        qsort(neighbors, count, sizeof(Node), compare);
+
+        // Add neighbors to the queue
+        for (int i = 0; i < count; i++) {
+            queue[end++] = neighbors[i].index;
+            visited[neighbors[i].index] = 1;
+        }
+
+        free(neighbors);
+        start++;
+    }
+
+    // Generate the perm array
     for (int i = 0; i < size; i++) {
-        perm[i] = nodes[i].node;
+        perm[i] = queue[size - i - 1];
     }
 
     free(nodes);
+    free(queue);
     free(visited);
 }

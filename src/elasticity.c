@@ -164,7 +164,36 @@ Matrix * compute_mass (int nNodes,
   return M;
 }
 
-void get_boundary_nodes (size_t** bnd_nTags, size_t* bnd_nTags_n){
+void get_boundary_nodes_half(size_t** bnd_nTags, size_t* bnd_nTags_n, size_t** sym_nodes, size_t* n_sym_nodes){
+  // boundary conditions -- physical names allowed are --> for generalised eigen value problem, only "0" boundary conditions are allowed
+  // This function returns node numbers that should be removed from matrix
+  int *dimTags = NULL, ierr;
+  size_t dimTags_n;
+  gmshModelGetPhysicalGroups(&dimTags, &dimTags_n, -1, &ierr);
+  for (size_t i=0;i<dimTags_n;i+=2){  
+    char *name =malloc(525*sizeof(char));
+    gmshModelGetPhysicalName(dimTags[i],dimTags[i+1],&name, &ierr);
+    // "clamped" (force x and y = 0)
+    double *cc = NULL;
+    size_t  cc_n;
+    if (strcmp(name,"clamped") == 0){
+      gmshModelMeshGetNodesForPhysicalGroup(dimTags[i],dimTags[i+1], bnd_nTags, bnd_nTags_n, &cc, &cc_n, &ierr);
+      printf("clamped found physical group %d\n",dimTags[i+1]);
+    }
+    if (strcmp(name,"sym") == 0){
+      gmshModelMeshGetNodesForPhysicalGroup(dimTags[i],dimTags[i+1], sym_nodes, n_sym_nodes, &cc, &cc_n, &ierr);
+      printf("sym found physical group %d\n",dimTags[i+1]);
+    }
+    if (cc) free(cc);
+    free (name);
+  }
+  for (size_t i=0; i<*bnd_nTags_n; i++) (*bnd_nTags)[i]--;
+  for (size_t i=0; i<*n_sym_nodes; i++) (*sym_nodes)[i]--;
+  if(dimTags)free(dimTags);
+}
+
+
+void get_boundary_nodes(size_t** bnd_nTags, size_t* bnd_nTags_n){
   // boundary conditions -- physical names allowed are --> for generalised eigen value problem, only "0" boundary conditions are allowed
   // This function returns node numbers that should be removed from matrix
   int *dimTags = NULL, ierr;
@@ -244,4 +273,37 @@ void visualize_in_gmsh(double* SOL, int n_nodes){
   gmshViewAddHomogeneousModelData(view_tag, 0, model_name,"NodeData", nodeTags, n_nodes, sol_3D, 3*n_nodes, 0., 3, -1, &ierr);
   gmshViewOptionSetNumber(view_tag, "VectorType", 5, &ierr);
   gmshViewOptionSetNumber(view_tag, "DisplacementFactor", 0.1, &ierr);
+}
+
+int assemble_system_half(Matrix** K, Matrix** M, double** coord, size_t** boundary_nodes, size_t* n_boundary_nodes, double E, double nu, double rho,size_t** sym_nodes, size_t* n_sym_nodes){
+  int ierr;
+  
+  gmshModelMeshRebuildNodeCache(1,&ierr);
+
+  size_t *triangleTags=0, ntriangles, *triangleNodes=NULL, temp;
+  get_triangles_p1 (&triangleTags, &ntriangles,&triangleNodes, &temp);
+
+  size_t *nodeTags=0, nNodes;
+  double *coord_bad = 0;
+  get_nodes (&nodeTags, &nNodes, &coord_bad, &temp);
+
+  get_boundary_nodes_half(boundary_nodes, n_boundary_nodes, sym_nodes,  n_sym_nodes); // the position in the matrix is at bnd_nodes[i]-1
+
+  *coord = (double*)malloc(3*nNodes*sizeof(double));
+  // Gmsh does not provide nodes in the right order.
+  for (size_t i=0;i<nNodes;i++){
+    (*coord)[3*(nodeTags[i]-1)] = coord_bad[3*i];
+    (*coord)[3*(nodeTags[i]-1)+1] = coord_bad[3*i+1];
+    (*coord)[3*(nodeTags[i]-1)+2] = coord_bad[3*i+2];
+  }
+  
+  *K = compute_stiffnes (nNodes,*coord,ntriangles,triangleNodes, E, nu);
+  *M = compute_mass (nNodes,*coord,ntriangles,triangleNodes, rho);
+  
+  free (coord_bad);
+  free (nodeTags);
+  free (triangleTags);
+  free (triangleNodes);
+  
+  return 0;
 }

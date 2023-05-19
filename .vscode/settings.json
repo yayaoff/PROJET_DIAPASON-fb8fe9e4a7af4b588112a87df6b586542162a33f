@@ -1,6 +1,9 @@
 {
     "files.associations": {
         "elasticity.h": "c",
-        "gmshc.h": "c"
+        "gmshc.h": "c",
+        "eigen.h": "c",
+        "stdlib.h": "c",
+        "rcm.h": "c"
     }
 }

@@ -1,3 +1,4 @@
+
 typedef struct {
     int node;
     int level;
@@ -15,4 +16,4 @@ void freeAdjacencyMatrix(int** adjMatrix, int size);
 int compare(const void* a, const void* b) ;
 
 
-void reverseCuthillMcKee(int** adjMatrix, int size, int* perm);
+void reverseCuthillMcKee(double** matrix, int size, int* perm);

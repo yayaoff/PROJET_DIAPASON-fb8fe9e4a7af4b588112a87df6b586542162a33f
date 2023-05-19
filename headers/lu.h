@@ -5,6 +5,18 @@
 
 #define EPS 1e-8 // tolérance pour un pivot nul
 
+typedef struct{
+    int argc;
+    int k;
+    double r1;
+    double r2;
+    double e;
+    double l; 
+    double meshSizeFactor;
+    char *filename;
+    char **argv;
+}param_t;
+
 // Calcule la décomposition LU de A "in-place":
 // la partie triangulaire supérieure (diagonale comprise) de A correspond à U,
 // la partie triangulaire inférieure correspond à L
