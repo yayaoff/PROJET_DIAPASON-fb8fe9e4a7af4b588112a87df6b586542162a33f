@@ -4,6 +4,7 @@
         "gmshc.h": "c",
         "eigen.h": "c",
         "stdlib.h": "c",
-        "rcm.h": "c"
+        "rcm.h": "c",
+        "cmath": "c"
     }
 }
