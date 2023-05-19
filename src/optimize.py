@@ -48,16 +48,23 @@ def fun_to_min_new(param_to_opt):
 
 def fun_to_min_2(param_to_opt):
     
-    print("Computing Freq for r1={}, r2={}, e ={}, l={}".format(0.0023,0.0045,e,l))
-    subprocess.run( ['./opti_for_py', '2',output_file,str(0.0023),str(0.0045),str(e),str(l)])
+    print("Computing Freq for r1={}, r2={}, e ={}, l={}".format(param_to_opt[3],param_to_opt[2],param_to_opt[1],param_to_opt[0]))
+    subprocess.run( ['./opti_for_py', '2',output_file,str(param_to_opt[3]),str(param_to_opt[2]),str(param_to_opt[1]),str(param_to_opt[0])])
     with open(output_file) as f:
         freq_0 = float(f.readline())
         freq_1 = float(f.readline())
     print('f_0 = '+str(freq_0))
     print('f_1 = '+str(freq_1)) 
     
-    # return abs(f_target_0 - freq_1/2.0) + abs(f_target_1- 2*freq_0)
     return abs(f_target_0 - freq_1) + abs(f_target_1 - freq_0)
+
+def constrain_params_1(params):
+    return params[3] - params[2]
+
+
+def constrain_params_2(params):
+    return params[0] - 0.8*params[1]
+
 
 # scipy.optimize.minimize(fun_to_min_2,(5e-3,61e-3),bounds=[(1e-9,65e-2)],method='Nelder-Mead')
 # scipy.optimize.minimize(fun_to_min_2,(42e-3,41e-3,58e-4),bounds=[(1e-9,6e-1)],method='Nelder-Mead',tol=1e-9)
@@ -65,7 +72,9 @@ def fun_to_min_2(param_to_opt):
 # scipy.optimize.minimize(fun_to_min_2,(23e-3,829e-4,63e-4),bounds=[(1e-8,7e-1)],method='Nelder-Mead',tol=1e-10)
 
 # scipy.optimize.minimize(fun_to_min_2,(12e-4,61e-3,41e-2),bounds=[(1e-9,8e-1)],method='Nelder-Mead')  # GOOD
-scipy.optimize.minimize(fun_to_min_2,(24e-4,1e-6),bounds=[(1e-8,9e-1)],method='Nelder-Mead') # BETTER
+bounds = [(1e-9,87e-3),(1e-9,87e-3),(1e-9,9e-4),(1e-9,9e-4)]
+constraints_arr = [{'fun': constrain_params_1, 'type': 'ineq'}]
+scipy.optimize.minimize(fun_to_min_2,(32e-4,26e-4,50e-5,35e-5),bounds=bounds,method='Nelder-Mead',constraints=constraints_arr) # BETTER
 # scipy.optimize.minimize(fun_to_min_2,(53e-6,43e-4,6e-4),bounds=[(1e-9,8e-1)],method='Nelder-Mead') # BETTER
 # scipy.optimize.minimize(fun_to_min_2,(1e-3,61e-3,58e-2),bounds=[(1e-9,6e-1)],method='Nelder-Mead',tol=1e-9)
 # scipy.optimize.minimize(fun_to_min_2,(1e-3,61e-4,583e-3),bounds=[(1e-9,6e-1)],method='Nelder-Mead')
