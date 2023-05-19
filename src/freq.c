@@ -189,10 +189,20 @@ double *compute_band_freq(int tag_vis,param_t *param){
       iv++;
     }
     if(tag_vis ==1) visualize_in_gmsh(vall, K->m/2);
+    if(tag_vis==2){
+      double*sim=malloc(K->m *sizeof(double));
+      //on fait la simulation 
+      for(int i=0; i<50; i++){
+        for(int j=0; j<K->m; j++){
+          sim[j]=vall[j]*sin(i*freq);
+        }
+        visualize_in_gmsh(sim, K->m/2);
+      }
+    }
   }
 
   fclose(file);
-  if(tag_vis ==1) gmshFltkRun(&ierr);
+  if(tag_vis ==1 || tag_vis ==2) gmshFltkRun(&ierr);
 
   free_matrix (K);
   free_matrix (M);
@@ -311,10 +321,20 @@ double *compute_band_freq_half(int tag_vis,param_t *param){
       iv++;
     }
     if(tag_vis ==1) visualize_in_gmsh(vall, K->m/2);
+    if(tag_vis==2){
+      double*sim=malloc(K->m *sizeof(double));
+      //on fait la simulation 
+      for(int i=0; i<50; i++){
+        for(int j=0; j<K->m; j++){
+          sim[j]=vall[j]*sin(i*freq);
+        }
+        visualize_in_gmsh(sim, K->m/2);
+      }
+    }
   }
 
   fclose(file);
-  if(tag_vis ==1) gmshFltkRun(&ierr);
+  if(tag_vis ==1 || tag_vis ==2) gmshFltkRun(&ierr);
 
   free_matrix (K);
   free_matrix (M);
