@@ -40,21 +40,29 @@ int main (int argc, char *argv[]) {
   param_t *param_init = malloc(sizeof(param_t));
   param_init->argc = argc; param_init->argv = argv; param_init->k = atoi(argv[1]);
   //designTuningFork(6e-3, 11e-3, 38e-3, 82e-3, 0.3, NULL);
-  param_init->r1=6e-3; param_init->r2=11e-3; param_init->e=38e-3; param_init->l=82e-3; param_init->meshSizeFactor=0.3;param_init->filename=NULL;
+  //param_init->r1=6e-3; param_init->r2=11e-3; param_init->e=38e-3; param_init->l=82e-3; param_init->meshSizeFactor=0.3;param_init->filename=NULL;
+
+  //param opti diap 
+  //param_init->r1=0.006415610882232378; param_init->r2=0.015; param_init->e=0.058552936021614585; param_init->l=0.05740262518415047; param_init->meshSizeFactor=0.3;param_init->filename=NULL;
+  param_init->r1=0.004; param_init->r2=0.41799556182165254; param_init->e=0.06774864120931981; param_init->l=0.0023357658690519; param_init->meshSizeFactor=0.3;param_init->filename=NULL;
+  //
   // double* frequencies = compute_freq(0,param_init);
-  double* frequencies = compute_band_freq(0,param_init);
-  printf("\n------------------------------------------------------\n");
-  printf("Frequence before optimisation = %f\n",frequencies[0]);
-  printf("Frequence target = %f\n",f_target);
-  printf("------------------------------------------------------\n");
-  // double lower_bound = 1e-4; double upper_bound = 80e-2;
-  double lower_bound = 1e-6; double upper_bound = 90e-3;
-  double param_biss = bissection_method(lower_bound,upper_bound,param_init);
-  // printf("Optimisation ended : found new parameter %f for previous parameter %f\n",param_biss,param_init->r1);
-  // Tester pour le nouveau paramètre
-  param_init->l = param_biss;
+  // double* frequencies = compute_band_freq(0,param_init);
+  // printf("\n------------------------------------------------------\n");
+  // printf("Frequence before optimisation = %f\n",frequencies[0]);
+  // printf("Frequence target = %f\n",f_target);
+  // printf("------------------------------------------------------\n");
+  // // double lower_bound = 1e-4; double upper_bound = 80e-2;
+  // double lower_bound = 1e-6; double upper_bound = 90e-3;
+  // double param_biss = bissection_method(lower_bound,upper_bound,param_init);
+  // // printf("Optimisation ended : found new parameter %f for previous parameter %f\n",param_biss,param_init->r1);
+  // // Tester pour le nouveau paramètre
+  // param_init->l = param_biss;
   double* new_frequencies = compute_band_freq(1,param_init);
   printf("Freq final = %f\n",new_frequencies[0]);
+
+  int k=param_init->k;
+
   // for(int mode_k=0; mode_k < param->k; k++) printf("Frequence for mode %d = %f\n",mode_k, new_frequencies[mode_k]);
   return 0;
 }

@@ -1,4 +1,5 @@
 #include "../headers/opti.h"
+#include <math.h>
 
 // Méthode basique : méthode de bissection 
 // Défaut : Optimisation univariée, or plusieurs paramètres !!
@@ -209,6 +210,7 @@ double *compute_band_freq(int tag_vis,param_t *param){
 
     // Put appropriate BC and plot
     double * vall = calloc(K->m, sizeof(double));
+    double * vall_vis = calloc(K->m, sizeof(double));
     int iv = 0, i_bnd = 0, i_sym = 0, offset = 0; 
     for(int i = 0; i < K->m/2; i++) {
       if(i_bnd < n_boundary_nodes && i == boundary_nodes[i_bnd]) {
@@ -229,7 +231,14 @@ double *compute_band_freq(int tag_vis,param_t *param){
       vall[2*(i)+1] = v[2*iv+1+offset ];
       iv++;
     }
-    if(tag_vis ==1) visualize_in_gmsh(vall, K->m/2);
+    if(tag_vis ==1) {
+      for(int i=0; i<200; i++){
+        for(int j=0; j<K->m; j++){
+          vall_vis[j]=vall[j]*sin(i*freq*M_PI);
+        }
+        visualize_in_gmsh(vall_vis, K->m/2);
+      }
+    }
   }
 
   // fclose(file);

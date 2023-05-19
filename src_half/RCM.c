@@ -15,15 +15,6 @@ int compare(const void* a, const void* b) {
     return nodeA->level - nodeB->level;
 }
 
-Point *coord_to_point(double * coord, int n_nodes){
-    Point* points = malloc(n_nodes * sizeof(Point));
-    for (int i = 0; i < n_nodes; i++) {
-        points[i].x = coord[2 * i];
-        points[i].y = coord[2 * i + 1];
-    }
-    return points;
-}
-
 int** AdjacencyMatrix(double** matrix, int size) {
     int** adjMatrix = malloc(size * sizeof(int*));
 
